@@ -8,11 +8,19 @@ from .models import Post,Tag
 from .forms import TagForm, PostForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 
 def post_list(requests):
-    posts = Post.objects.all()
-    paginator = Paginator(posts, 1)
+    search_query = requests.GET.get('search', '')
+
+    if search_query:
+        posts = Post.objects.filter(Q(title__icontains=search_query) | Q(body__icontains=search_query))
+    else:
+        posts = Post.objects.all()
+
+    paginator = Paginator(posts, 3)
+
 
     page_number = requests.GET.get('page', 1)
     page = paginator.get_page(page_number)
