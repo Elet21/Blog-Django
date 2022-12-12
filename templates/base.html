@@ -74,13 +74,13 @@
   </div>
 </div>
 
+  {% if request.user.is_authenticated and request.user.is_staff %}
+    <div class="admin-panel align-items-centre">
+      <a href="/admin" class="btn btn-outline-info">Admin</a>
+      {% block admin-panel %}{% endblock %}
+    </div>
+  {% endif %}
 
-  <div class="admin-panel align-items-centre">
-    <a href="/admin" class="btn btn-outline-info">Admin</a>
-    {% block admin-panel %}{% endblock %}
-
-
-  </div>
 
 
 </body>
